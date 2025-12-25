@@ -164,8 +164,10 @@ export function FeatureSteps({
                         >
                         <img
                             src={feature.image}
-                            alt={feature.step}
+                            alt={`${feature.step}: ${feature.title} - Momentum Digital Web Development Process`}
                             className="w-full h-full object-cover"
+                            loading="lazy"
+                            decoding="async"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent opacity-80" />
                         

@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { Section } from './ui/Section';
 import { Mail, Shield, Loader2, User, Phone, Package, MessageSquare, Clock, ArrowUpRight } from 'lucide-react';
@@ -38,15 +37,37 @@ export const Contact: React.FC = () => {
     setPhone(value);
   };
 
+  /**
+   * Sanitizes input strings to prevent XSS (Cross-Site Scripting)
+   * by removing potentially dangerous characters and HTML tags.
+   */
+  const sanitizeInput = (str: string) => {
+    return str.replace(/[<>]/g, '').trim();
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setFormState('submitting');
     
     const formData = new FormData(e.currentTarget);
+    
+    // Security: Sanitize all text fields to prevent basic XSS
+    const sanitizedEntries: [string, FormDataEntryValue][] = [];
+    formData.forEach((value, key) => {
+      if (typeof value === 'string') {
+        sanitizedEntries.push([key, sanitizeInput(value)]);
+      } else {
+        sanitizedEntries.push([key, value]);
+      }
+    });
+
+    const sanitizedFormData = new FormData();
+    sanitizedEntries.forEach(([key, value]) => sanitizedFormData.append(key, value));
+
     try {
         const response = await fetch('https://api.web3forms.com/submit', {
             method: 'POST',
-            body: formData
+            body: sanitizedFormData
         });
         const data = await response.json();
         if (data.success) {

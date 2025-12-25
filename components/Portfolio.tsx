@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Button } from './ui/Button';
@@ -84,10 +83,13 @@ const ProjectItem: React.FC<{ project: any; index: number }> = ({ project, index
                 >
                     <motion.img 
                         src={project.image} 
-                        className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
+                        alt={`${project.title} - ${project.category} Professional Web Design Project by Momentum Digital`}
+                        className="w-full h-full object-cover grayscale-0 md:grayscale group-hover:grayscale-0 transition-all duration-700"
+                        loading="lazy"
+                        decoding="async"
                     />
                 </motion.div>
-                <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-500 pointer-events-none" />
+                <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-500 pointer-events-none md:block hidden" />
             </div>
 
             <div className={cn("flex flex-col gap-8", index % 2 !== 0 && "md:order-1 md:text-right md:items-end")}>

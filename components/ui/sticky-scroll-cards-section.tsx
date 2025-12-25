@@ -101,8 +101,10 @@ const StickyCard: React.FC<{ feature: StickyFeature; index: number }> = ({ featu
                     whileInView={{ scale: 1 }}
                     transition={{ duration: 1.5, ease: "easeOut" }}
                     src={feature.imageUrl} 
-                    alt={feature.title}
+                    alt={`${feature.title} - High-Performance Web Service by Momentum Digital`}
                     className="w-full h-full object-cover grayscale md:hover:grayscale-0 transition-all duration-700"
+                    loading="lazy"
+                    decoding="async"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
             </div>
