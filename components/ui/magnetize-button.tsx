@@ -39,6 +39,9 @@ export function MagnetizeButton({
     }, [particleCount]);
 
     const handleInteractionStart = useCallback(async () => {
+        // Desktop only effect for performance and scroll safety
+        if (window.innerWidth < 1024) return;
+        
         setIsAttracting(true);
         await particlesControl.start({
             x: 0,
@@ -52,6 +55,8 @@ export function MagnetizeButton({
     }, [particlesControl]);
 
     const handleInteractionEnd = useCallback(async () => {
+        if (window.innerWidth < 1024) return;
+
         setIsAttracting(false);
         await particlesControl.start((i) => ({
             x: particles[i].x,
@@ -74,8 +79,6 @@ export function MagnetizeButton({
             )}
             onMouseEnter={handleInteractionStart}
             onMouseLeave={handleInteractionEnd}
-            onTouchStart={handleInteractionStart}
-            onTouchEnd={handleInteractionEnd}
             {...props}
         >
             {particles.map((_, index) => (

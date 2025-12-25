@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 
@@ -9,6 +8,7 @@ export const RotatingBadge: React.FC = () => {
   return (
     <motion.div 
       style={{ rotate }}
+      // 'hidden' hides it on all mobile sizes, 'lg:flex' shows it only on large screens (desktop)
       className="fixed bottom-10 right-10 z-[70] w-32 h-32 md:w-40 md:h-40 hidden lg:flex items-center justify-center pointer-events-none"
     >
       <svg viewBox="0 0 100 100" className="w-full h-full fill-white/10 overflow-visible">

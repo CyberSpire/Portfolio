@@ -1,8 +1,8 @@
-
 "use client"
 
 import React, { useState, useEffect, useRef } from "react"
 import { motion, AnimatePresence, useInView, useScroll, useTransform } from "framer-motion"
+import { ChevronLeft, ChevronRight } from "lucide-react"
 import { cn } from "../../lib/utils"
 
 interface Feature {
@@ -30,7 +30,7 @@ export function FeatureSteps({
   const [currentFeature, setCurrentFeature] = useState(0)
   const [progress, setProgress] = useState(0)
   const containerRef = useRef(null)
-  const isInView = useInView(containerRef, { once: false, amount: 0.3 })
+  const isInView = useInView(containerRef, { once: false, amount: 0.1 })
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -41,7 +41,7 @@ export function FeatureSteps({
   const rotateX = useTransform(scrollYProgress, [0, 1], [5, -5]);
 
   useEffect(() => {
-    if (!isInView) {
+    if (!isInView || window.innerWidth < 1024) {
       setProgress(0);
       return;
     }
@@ -63,6 +63,18 @@ export function FeatureSteps({
     setProgress(0);
   }
 
+  const nextStep = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setCurrentFeature((prev) => (prev + 1) % features.length);
+    setProgress(0);
+  }
+
+  const prevStep = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setCurrentFeature((prev) => (prev - 1 + features.length) % features.length);
+    setProgress(0);
+  }
+
   return (
     <div ref={containerRef} className={cn("p-4 md:p-12", className)}>
       <div className="max-w-7xl mx-auto w-full">
@@ -77,12 +89,10 @@ export function FeatureSteps({
               return (
                 <motion.div
                   key={index}
-                  whileTap={{ scale: 0.98 }}
                   className={cn(
-                      "flex flex-col gap-4 cursor-pointer rounded-[2rem] md:rounded-[2.5rem] p-5 md:p-8 transition-all duration-500 border relative overflow-hidden",
-                      isActive 
-                          ? "bg-white/[0.05] border-accent shadow-[0_20px_50px_rgba(249,115,22,0.1)] scale-[1.02] opacity-100" 
-                          : "opacity-60 md:opacity-40 border-white/5 md:hover:opacity-100"
+                      "flex flex-col gap-4 rounded-[2rem] md:rounded-[2.5rem] p-6 md:p-8 transition-all duration-500 border relative overflow-hidden cursor-pointer",
+                      "bg-white/[0.05] border-white/10 lg:opacity-40 lg:border-white/5",
+                      isActive && "border-accent lg:bg-white/[0.05] lg:border-accent lg:shadow-[0_20px_50px_rgba(249,115,22,0.1)] lg:scale-[1.02] lg:opacity-100"
                   )}
                   onClick={() => handleStepClick(index)}
                 >
@@ -90,16 +100,24 @@ export function FeatureSteps({
                     <div className="flex items-center gap-4">
                       <span className={cn(
                           "text-[9px] md:text-xs font-black px-3 md:px-4 py-1 md:py-1.5 rounded-full uppercase tracking-[0.2em] shrink-0 transition-colors",
-                          isActive ? "bg-accent text-white" : "bg-white/5 text-muted"
+                          "bg-accent text-white",
+                          !isActive && "lg:bg-white/5 lg:text-muted"
                       )}>
                           {feature.step}
                       </span>
                       <h3 className={cn(
                         "text-lg md:text-2xl font-display font-black text-white uppercase italic tracking-tight transition-colors",
-                        isActive ? "text-white" : "text-muted"
+                        "text-white",
+                        !isActive && "lg:text-muted"
                       )}>
                           {feature.title}
                       </h3>
+                    </div>
+
+                    <div className="lg:hidden mt-4">
+                        <p className="text-sm md:text-lg text-muted leading-relaxed font-medium">
+                            {feature.content}
+                        </p>
                     </div>
 
                     <AnimatePresence initial={false}>
@@ -118,7 +136,7 @@ export function FeatureSteps({
                             marginTop: 0,
                             transition: { duration: 0.3, ease: "easeIn" }
                           }}
-                          className="overflow-hidden"
+                          className="hidden lg:block overflow-hidden"
                         >
                           <p className="text-sm md:text-lg text-muted leading-relaxed font-medium">
                             {feature.content}
@@ -142,7 +160,7 @@ export function FeatureSteps({
 
           <div
             className={cn(
-              "relative h-[300px] md:h-[600px] lg:h-[700px] perspective-lg order-1 lg:order-2",
+              "relative h-[300px] md:h-[600px] lg:h-[700px] perspective-lg order-1 lg:order-2 group/image",
               imageHeight
             )}
           >
@@ -150,6 +168,28 @@ export function FeatureSteps({
               style={{ rotateY, rotateX }}
               className="w-full h-full relative"
             >
+                {/* Step Counter Badge */}
+                <div className="absolute top-6 right-6 z-30 px-4 py-1.5 rounded-full bg-black/40 backdrop-blur-md border border-white/10 text-[10px] font-black uppercase tracking-widest text-white">
+                  Step {currentFeature + 1} of {features.length}
+                </div>
+
+                {/* Manual Navigation Arrows */}
+                <button 
+                  onClick={prevStep}
+                  className="absolute left-4 top-1/2 -translate-y-1/2 z-30 w-12 h-12 flex items-center justify-center rounded-full bg-black/30 backdrop-blur-lg border border-white/10 text-white hover:bg-accent hover:border-accent transition-all duration-300 md:opacity-0 md:group-hover/image:opacity-100"
+                  aria-label="Previous step"
+                >
+                  <ChevronLeft size={24} />
+                </button>
+
+                <button 
+                  onClick={nextStep}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 z-30 w-12 h-12 flex items-center justify-center rounded-full bg-black/30 backdrop-blur-lg border border-white/10 text-white hover:bg-accent hover:border-accent transition-all duration-300 md:opacity-0 md:group-hover/image:opacity-100"
+                  aria-label="Next step"
+                >
+                  <ChevronRight size={24} />
+                </button>
+
                 <AnimatePresence mode="wait">
                 {features.map(
                     (feature, index) =>
@@ -157,9 +197,9 @@ export function FeatureSteps({
                         <motion.div
                         key={index}
                         className="absolute inset-0 rounded-[3rem] overflow-hidden border border-white/10 shadow-2xl bg-card"
-                        initial={{ opacity: 0, scale: 0.9, y: 20 }}
-                        animate={{ opacity: 1, scale: 1, y: 0 }}
-                        exit={{ opacity: 0, scale: 1.1, y: -20 }}
+                        initial={{ opacity: 0, scale: 0.9, x: 20 }}
+                        animate={{ opacity: 1, scale: 1, x: 0 }}
+                        exit={{ opacity: 0, scale: 1.1, x: -20 }}
                         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                         >
                         <img

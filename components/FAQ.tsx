@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Section } from './ui/Section';
 import { Plus, HelpCircle } from 'lucide-react';
@@ -78,7 +77,7 @@ export const FAQ: React.FC = () => {
             <h2 className="text-5xl md:text-7xl font-display font-black text-white leading-[0.9] tracking-tighter uppercase italic">
                 Strategic <br /> <span className="text-outline">Insights.</span>
             </h2>
-            <p className="text-muted text-lg md:text-xl font-medium mt-8 max-w-2xl mx-auto">
+            <p className="text-white/80 text-lg md:text-xl font-medium mt-8 max-w-2xl mx-auto">
                 Everything you need to know about how we engineer high-performance growth systems for your business.
             </p>
         </motion.div>
@@ -104,7 +103,7 @@ export const FAQ: React.FC = () => {
             viewport={{ once: true }}
             className="text-center mt-20"
         >
-            <div className="p-10 rounded-[2.5rem] bg-card/40 border border-white/5 backdrop-blur-3xl inline-block">
+            <div className="p-10 rounded-[2.5rem] bg-card/40 border border-white/10 backdrop-blur-3xl inline-block shadow-2xl">
                 <p className="text-white font-black text-xl mb-6 italic uppercase">Still have questions?</p>
                 <Button href="#contact" className="px-10 py-5 shadow-2xl rounded-full">Initiate Consultation</Button>
             </div>
@@ -121,8 +120,8 @@ const AccordionItem: React.FC<{ item: FAQItem }> = ({ item }) => {
     <div className={cn(
         "group rounded-[2rem] border transition-all duration-500 overflow-hidden",
         isOpen 
-            ? "bg-accent/5 border-accent shadow-[0_0_30px_rgba(249,115,22,0.1)]" 
-            : "bg-card/40 border-white/5 hover:border-white/20"
+            ? "bg-accent/10 border-accent shadow-[0_0_40px_rgba(249,115,22,0.15)]" 
+            : "bg-card/60 border-white/10 hover:border-white/20"
     )}>
       <button
         onClick={() => setIsOpen(!isOpen)}
@@ -139,7 +138,7 @@ const AccordionItem: React.FC<{ item: FAQItem }> = ({ item }) => {
             transition={{ type: "spring", stiffness: 300, damping: 20 }}
             className={cn(
                 "w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 transition-colors border",
-                isOpen ? "bg-accent text-white border-accent" : "bg-white/5 text-muted border-white/10"
+                isOpen ? "bg-accent text-white border-accent" : "bg-white/10 text-white/50 border-white/10"
             )}
         >
             <Plus size={20} strokeWidth={3} />
@@ -153,7 +152,7 @@ const AccordionItem: React.FC<{ item: FAQItem }> = ({ item }) => {
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
           >
-            <div className="px-8 md:px-10 pb-10 text-muted font-medium text-base md:text-lg leading-relaxed border-t border-white/5 pt-6">
+            <div className="px-8 md:px-10 pb-10 text-white/80 font-medium text-base md:text-lg leading-relaxed border-t border-white/10 pt-6">
               {item.answer}
             </div>
           </motion.div>

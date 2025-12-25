@@ -65,7 +65,7 @@ export const Hero: React.FC = () => {
                     variants={textVariants}
                     initial="hidden"
                     animate="visible"
-                    className="text-[14vw] md:text-[10vw] font-display font-black leading-[0.85] text-outline uppercase tracking-tighter text-center"
+                    className="text-[14vw] md:text-[10vw] font-display font-black leading-[0.85] uppercase tracking-tighter text-center text-outline italic"
                 >
                     Convert Faster.
                 </motion.h1>
@@ -117,12 +117,12 @@ export const Hero: React.FC = () => {
         </motion.div>
       </div>
 
-      {/* Decorative Background Text with Shimmer */}
+      {/* Decorative Background Text */}
       <motion.div 
         style={{ x: useTransform(scrollYProgress, [0, 1], [0, -300]) }}
         className={cn(
           "absolute top-1/2 left-0 -translate-y-1/2 text-[25vw] font-black whitespace-nowrap pointer-events-none select-none z-0",
-          "shimmer-text text-white/[0.02]"
+          "text-white/[0.02]"
         )}
       >
         MOMENTUM DIGITAL MOMENTUM DIGITAL

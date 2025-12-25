@@ -83,9 +83,10 @@ export function Pricing({
     <div className="container mx-auto px-4 py-16">
       <div className="text-center space-y-8 mb-16 md:mb-24 relative">
         <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
+            initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
             className="inline-block"
         >
             <div className="bg-accent/10 border border-accent/30 rounded-full px-6 py-2 backdrop-blur-xl">
@@ -122,20 +123,19 @@ export function Pricing({
           return (
             <motion.div
               key={index}
-              initial={{ y: 50, opacity: 0 }}
+              initial={{ y: 20, opacity: 0 }}
               whileInView={{ y: 0, opacity: 1 }}
-              viewport={{ once: true, margin: "-100px" }}
+              viewport={{ once: true, amount: 0.1 }}
               transition={{
-                duration: 1,
-                type: "spring",
-                stiffness: 80,
-                damping: 15,
-                delay: index * 0.15,
+                duration: 0.8,
+                ease: "easeOut",
+                delay: index * 0.1,
               }}
-              whileHover={isDesktop ? { y: -15, transition: { duration: 0.3 } } : {}}
+              style={{ willChange: "transform, opacity" }}
+              whileHover={isDesktop ? { y: -8, transition: { duration: 0.3 } } : {}}
               className={cn(
                 "rounded-[2rem] md:rounded-[3rem] border-2 p-6 md:p-10 bg-card/70 backdrop-blur-3xl text-center relative shadow-2xl transition-all duration-500 flex flex-col group",
-                plan.isPopular ? "border-accent shadow-accent/20" : "border-white/5 hover:border-white/20",
+                plan.isPopular ? "border-accent shadow-accent/20" : "border-white/20 hover:border-white/40 shadow-lg",
                 plan.isPopular && isDesktop && "scale-105"
               )}
             >
@@ -160,7 +160,7 @@ export function Pricing({
                   <div className="flex flex-col items-center justify-center">
                       {plan.originalPrice && (
                         <div className="relative mb-1">
-                          <span className="text-lg md:text-xl text-muted/40 font-black line-through decoration-accent/40 decoration-2">
+                          <span className="text-lg md:text-xl text-white/40 font-black line-through decoration-accent/40 decoration-2">
                               ${plan.originalPrice}
                           </span>
                         </div>
@@ -192,6 +192,7 @@ export function Pricing({
                 </ul>
 
                 <div className="mt-auto">
+                  <span className="hidden">Selected: {isSelected ? 'Yes' : 'No'}</span>
                   <MagnetizeButton
                       onClick={(e) => handlePlanClick(e, plan)}
                       className={cn(

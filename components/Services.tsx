@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import { Section } from './ui/Section';
 import { Rocket, GraduationCap, Lock, Check } from 'lucide-react';
@@ -6,7 +5,6 @@ import { motion, useAnimation } from 'framer-motion';
 import { cn } from '../lib/utils';
 import { LiquidBackground } from './ui/liquid-background';
 
-// Refined GridItemProps
 interface GridItemProps {
   icon: React.ReactElement;
   title: string;
@@ -15,6 +13,7 @@ interface GridItemProps {
   className?: string;
   delay?: number;
   animationType?: "rotate" | "shake";
+  themeColor: "accent" | "primary" | "blue";
 }
 
 const ProAnimatedIcon = ({ children, animationType = "rotate" }: { children?: React.ReactNode, animationType?: "rotate" | "shake" }) => {
@@ -34,7 +33,6 @@ const ProAnimatedIcon = ({ children, animationType = "rotate" }: { children?: Re
             transition: { duration: 1.5, ease: "easeInOut" }
           });
         } else {
-          // Shake animation
           await controls.start({
             x: [0, -5, 5, -5, 5, 0],
             y: [0, -1, 1, -1, 1, 0],
@@ -62,44 +60,83 @@ const ProAnimatedIcon = ({ children, animationType = "rotate" }: { children?: Re
   );
 };
 
-const GridItem = ({ icon, title, description, features, className, delay = 0, animationType = "rotate" }: GridItemProps) => {
+const GridItem = ({ icon, title, description, features, className, delay = 0, animationType = "rotate", themeColor }: GridItemProps) => {
+  const themeStyles = {
+    accent: {
+      border: "hover:border-accent shadow-accent/10",
+      glow: "bg-accent/30",
+      iconBg: "bg-accent/20 text-accent",
+      iconActive: "group-hover:bg-accent",
+      gradient: "from-accent/20 via-transparent to-transparent",
+      check: "bg-accent/20 text-accent border-accent/40"
+    },
+    primary: {
+      border: "hover:border-primary shadow-primary/10",
+      glow: "bg-primary/30",
+      iconBg: "bg-primary/20 text-primary",
+      iconActive: "group-hover:bg-primary",
+      gradient: "from-primary/20 via-transparent to-transparent",
+      check: "bg-primary/20 text-primary border-primary/40"
+    },
+    blue: {
+      border: "hover:border-blue-400 shadow-blue-400/10",
+      glow: "bg-blue-400/30",
+      iconBg: "bg-blue-400/20 text-blue-300",
+      iconActive: "group-hover:bg-blue-400",
+      gradient: "from-blue-400/20 via-transparent to-transparent",
+      check: "bg-blue-400/20 text-blue-300 border-blue-400/40"
+    }
+  };
+
+  const style = themeStyles[themeColor];
+
   return (
     <motion.div 
-      initial={{ opacity: 0, y: 30 }}
+      initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.5, ease: "easeOut", delay }}
+      viewport={{ once: true, amount: 0.1 }}
+      transition={{ duration: 0.8, ease: "easeOut", delay }}
+      style={{ willChange: "transform, opacity" }}
       className={cn(
-          "group relative bg-card/40 backdrop-blur-xl rounded-[2.5rem] p-8 md:p-10 border border-white/5 shadow-xl transition-all duration-500 h-full flex flex-col z-10 overflow-hidden", 
-          "hover:border-accent/40 hover:shadow-[0_0_40px_rgba(249,115,22,0.1)]",
+          "group relative bg-[#1A1A1A] rounded-[2.5rem] p-8 md:p-10 border border-white/10 shadow-3xl transition-all duration-500 h-full flex flex-col z-10 overflow-hidden", 
+          style.border,
+          "hover:scale-[1.02]",
           className
       )}
     >
-      <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+      {/* Dynamic Theme Gradient */}
+      <div className={cn("absolute inset-0 bg-gradient-to-br opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none", style.gradient)} />
       
-      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-accent to-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+      {/* Animated Top Border */}
+      <div className={cn("absolute top-0 left-0 w-full h-1 bg-gradient-to-r opacity-0 group-hover:opacity-100 transition-opacity duration-300", 
+        themeColor === 'accent' ? "from-accent to-orange-400" : 
+        themeColor === 'primary' ? "from-primary to-purple-400" : 
+        "from-blue-400 to-cyan-300"
+      )}></div>
 
-      <div className="mb-8 relative z-10 inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-white/5 text-accent group-hover:bg-accent group-hover:text-white group-hover:scale-105 transition-all duration-300 shadow-sm border border-white/10 group-hover:border-accent">
+      <div className={cn("mb-8 relative z-10 inline-flex items-center justify-center w-16 h-16 rounded-2xl transition-all duration-300 shadow-xl border border-white/20", style.iconBg, style.iconActive, "group-hover:text-white group-hover:scale-110")}>
         <ProAnimatedIcon animationType={animationType}>
           {React.cloneElement(icon as any, { size: 28 })}
         </ProAnimatedIcon>
         
-        <div className="absolute inset-0 rounded-2xl bg-accent/20 blur-2xl opacity-0 group-hover:opacity-100 transition-opacity animate-pulse" />
+        <div className={cn("absolute inset-0 rounded-2xl blur-2xl opacity-0 group-hover:opacity-100 transition-opacity animate-pulse", style.glow)} />
       </div>
 
-      <h3 className="text-2xl md:text-3xl font-display font-black text-white mb-4 tracking-tighter uppercase italic group-hover:text-accent transition-colors relative z-10">
+      <h3 className="text-2xl md:text-3xl font-display font-black text-white mb-4 tracking-tighter uppercase italic group-hover:text-white transition-colors relative z-10">
         {title}
       </h3>
       
-      <p className="text-base text-muted/80 leading-relaxed mb-8 flex-grow relative z-10 font-medium">
+      <p className="text-base text-white leading-relaxed mb-8 flex-grow relative z-10 font-medium group-hover:text-white transition-colors">
         {description}
       </p>
 
-      <div className="space-y-4 pt-8 border-t border-white/5 relative z-10">
-        <p className="text-[10px] font-black uppercase tracking-[0.3em] text-accent/50 mb-2">Core Benefits</p>
+      <div className="space-y-4 pt-8 border-t border-white/20 relative z-10">
+        <p className={cn("text-[11px] font-black uppercase tracking-[0.3em] mb-2 drop-shadow-sm", themeColor === 'accent' ? 'text-accent' : themeColor === 'primary' ? 'text-primary' : 'text-blue-300')}>
+            Core Benefits
+        </p>
         {features.map((feature, i) => (
-          <li key={i} className="flex items-center text-sm font-bold text-white/90 list-none tracking-tight">
-            <div className="mr-3 p-1 rounded-full bg-accent/10 text-accent shrink-0 border border-accent/20">
+          <li key={i} className="flex items-center text-sm font-black text-white list-none tracking-tight">
+            <div className={cn("mr-3 p-1 rounded-full shrink-0 border-2 shadow-sm", style.check)}>
                 <Check size={12} strokeWidth={4} />
             </div>
             {feature}
@@ -116,25 +153,25 @@ export const Services: React.FC = () => {
 
   return (
     <Section id="services" className="relative overflow-visible px-4">
-      <div className="absolute inset-x-2 md:inset-x-8 inset-y-0 rounded-[2.5rem] md:rounded-[4rem] border border-white/5 shadow-[0_0_80px_rgba(0,0,0,0.5)] pointer-events-none -z-10" />
+      <div className="absolute inset-x-2 md:inset-x-8 inset-y-0 rounded-[2.5rem] md:rounded-[4rem] border border-white/10 shadow-[0_0_80px_rgba(0,0,0,0.5)] pointer-events-none -z-10" />
       
       <div className="absolute inset-0 rounded-[2.5rem] md:rounded-[4rem] overflow-hidden">
         <LiquidBackground className="opacity-40" color="rgba(249, 115, 22, 0.2)" />
       </div>
       
-      <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[150px] opacity-30 -z-10"></div>
-      <div className="absolute bottom-0 left-0 translate-y-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-accent/5 rounded-full blur-[150px] opacity-30 -z-10"></div>
+      <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[150px] opacity-30 -z-10"></div>
+      <div className="absolute bottom-0 left-0 translate-y-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-accent/10 rounded-full blur-[150px] opacity-30 -z-10"></div>
 
       <div className="relative z-10 py-16 md:py-24">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
           className="text-center mb-20 md:mb-28 max-w-4xl mx-auto px-4 flex flex-col items-center"
         >
           <div className="relative mb-6">
-            <h1 className="text-[10px] md:text-xs uppercase font-black text-accent tracking-[0.4em] px-6 py-2 rounded-full border border-accent/20 bg-accent/5 backdrop-blur-md shadow-lg">
+            <h1 className="text-[10px] md:text-xs uppercase font-black text-accent tracking-[0.4em] px-6 py-2 rounded-full border border-accent/40 bg-accent/10 backdrop-blur-md shadow-lg">
               Strategic Expertise
             </h1>
           </div>
@@ -143,10 +180,10 @@ export const Services: React.FC = () => {
             {words.map((word, i) => (
               <motion.span
                 key={i}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 10 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.1, duration: 0.5 }}
+                transition={{ delay: i * 0.05, duration: 0.4 }}
                 className="inline-block mr-[0.3em]"
               >
                 {word}
@@ -156,47 +193,50 @@ export const Services: React.FC = () => {
             {highlight.map((word, i) => (
               <motion.span
                 key={i}
-                initial={{ opacity: 0, scale: 0.8 }}
+                initial={{ opacity: 0, scale: 0.95 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
-                transition={{ delay: 0.5 + i * 0.1, duration: 0.5, type: "spring" }}
+                transition={{ delay: 0.4 + i * 0.1, duration: 0.5, ease: "easeOut" }}
                 className="inline-block text-outline mr-[0.4em]"
               >
                 {word}
               </motion.span>
             ))}
           </h2>
-          <p className="text-lg md:text-2xl text-muted font-medium leading-relaxed max-w-2xl">
-            Everything you need to succeed online, engineered for small business owners who demand <span className="text-white">superior performance</span>.
+          <p className="text-lg md:text-2xl text-white font-medium leading-relaxed max-w-2xl">
+            Everything you need to succeed online, engineered for small business owners who demand <span className="text-accent underline decoration-white/40 underline-offset-8">superior results</span>.
           </p>
         </motion.div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10 max-w-[1400px] mx-auto px-2">
           <GridItem 
             icon={<Rocket />}
-            title="High Speed Websites"
-            description="Ultra-fast websites engineered to dominate search rankings and transform anonymous visitors into loyal, paying customers."
-            features={["Mobile-responsive architecture", "Precision SEO engineering", "Instant-load optimization"]}
+            title="Fast Performance"
+            description="Expert websites made to load in less than 2 seconds, helping you keep more customers and rank higher on Google."
+            features={["Mobile ready", "Google friendly", "Instant loading"]}
             delay={0.1}
             animationType="rotate"
+            themeColor="accent"
           />
           
           <GridItem 
             icon={<Lock />}
-            title="Zero-Rent Ownership"
-            description="Break free from agency dependency. You invest once and maintain 100% legal ownership of your digital assets forever."
-            features={["No recurring platform fees", "Total source code access", "Industrial-grade security"]}
+            title="Full Ownership"
+            description="You own your website 100%. No monthly rent just to keep your site on the internet. Total freedom for your brand."
+            features={["One-time pay", "Full code access", "Safe & Private"]}
             delay={0.2}
             animationType="shake"
+            themeColor="primary"
           />
           
           <GridItem 
             icon={<GraduationCap />}
-            title="Lifetime Support"
-            description="We don't leave you stranded. Receive elite training systems and dedicated priority support to ensure your long-term success."
-            features={["Exclusive video walkthroughs", "Rapid-response priority care", "Simplified management systems"]}
+            title="Support System"
+            description="We stay with you. You get training videos and direct help whenever you need to update your site. Priority access."
+            features={["Training videos", "Priority help", "Simple updates"]}
             delay={0.3}
             animationType="shake"
+            themeColor="blue"
             className="sm:col-span-2 lg:col-span-1 max-w-lg mx-auto lg:max-w-none"
           />
         </div>

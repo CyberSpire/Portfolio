@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Section } from './ui/Section';
 import { Pricing as PricingComponent, PricingPlan } from './ui/pricing';
@@ -113,12 +112,12 @@ export const Pricing: React.FC = () => {
         />
       </motion.div>
 
-      {/* Guaranteed Ownership Banner */}
+      {/* Guaranteed Ownership Banner: Significant margin added as requested */}
       <motion.div 
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="relative max-w-6xl mx-auto mt-20"
+          className="relative max-w-6xl mx-auto mt-32 md:mt-48"
       >
           <div className="bg-[#111111] rounded-[2.5rem] p-10 md:p-16 border border-white/5 relative overflow-hidden group">
               <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-accent to-primary opacity-50" />
@@ -133,7 +132,7 @@ export const Pricing: React.FC = () => {
                           Stop Renting. <br /> <span className="text-outline">Start Owning.</span>
                       </h3>
                       <p className="text-muted text-lg font-medium leading-relaxed max-w-2xl">
-                          Traditional agencies charge monthly maintenance just to keep your lights on. At <span className="text-white">Momentum Digital</span>, we deliver 100% of the custom code. No vendor lock-in, just pure performance.
+                          Agencies often charge monthly fees just to keep your site online. We don't. You get 100% of the code. No lock-ins, just results.
                       </p>
                   </div>
                   
@@ -147,7 +146,7 @@ export const Pricing: React.FC = () => {
                       </div>
                       <div className="text-center lg:text-right">
                           <p className="text-white font-black text-2xl tracking-tighter uppercase italic">LIFETIME ASSET</p>
-                          <p className="text-muted text-[10px] font-black uppercase tracking-[0.3em] mt-1">Engineered for Longevity</p>
+                          <p className="text-muted text-[10px] font-black uppercase tracking-[0.3em] mt-1">Ready for Success</p>
                       </div>
                   </div>
               </div>
