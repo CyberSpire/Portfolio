@@ -1,5 +1,7 @@
+
 import React, { useState, useEffect, useRef } from 'react';
-import { cn } from "@/lib/utils";
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { cn } from "../../lib/utils";
 
 export interface StickyFeature {
   title: string;
@@ -10,106 +12,106 @@ export interface StickyFeature {
 }
 
 interface StickyFeatureSectionProps {
+  eyebrow?: string;
   title: string;
   description: string;
   features: StickyFeature[];
 }
 
-// --- Custom Hook for Scroll Animation ---
-const useScrollAnimation = () => {
-  const [inView, setInView] = useState(false);
-  const ref = useRef<HTMLHeadingElement | HTMLParagraphElement>(null);
-
-  useEffect(() => {
-    const element = ref.current;
-    if (!element) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setInView(entry.isIntersecting);
-      },
-      {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.1,
-      }
-    );
-
-    observer.observe(element);
-
-    return () => observer.disconnect();
-  }, []);
-
-  return [ref, inView] as const;
-};
-
-
-// --- Header Component ---
-const AnimatedHeader = ({ title, description }: { title: string, description: string }) => {
-    const [headerRef, headerInView] = useScrollAnimation();
-    const [pRef, pInView] = useScrollAnimation();
-
-    return (
-        <div className="text-center max-w-3xl mx-auto mb-20 px-4">
-            <h2 
-                ref={headerRef as React.RefObject<HTMLHeadingElement>}
-                className={cn(
-                    "text-3xl md:text-5xl font-extrabold transition-all duration-700 ease-out text-gray-900 tracking-tight",
-                    headerInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-                )}
+export function StickyFeatureSection({ title, description, features, eyebrow }: StickyFeatureSectionProps) {
+  return (
+    <div className="bg-background py-20 md:py-32 overflow-hidden px-4 md:px-6">
+      <div className="max-w-[1400px] mx-auto">
+          
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 md:mb-32 gap-6 md:gap-12">
+            <motion.div
+                initial={{ opacity: 0, x: -50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
             >
-                {title}
-            </h2>
-            <p 
-                ref={pRef as React.RefObject<HTMLParagraphElement>}
-                className={cn(
-                    "text-lg text-gray-600 mt-6 transition-all duration-700 ease-out delay-200 max-w-2xl mx-auto leading-relaxed",
-                    pInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-                )}
+                {eyebrow && <span className="text-accent font-black tracking-[0.4em] uppercase text-[10px] mb-4 block">{eyebrow}</span>}
+                <h2 className="text-4xl md:text-8xl font-display font-black text-white leading-[0.95] md:leading-[0.9] tracking-tighter uppercase">
+                    {title}
+                </h2>
+            </motion.div>
+            <motion.p 
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                className="max-w-sm text-muted font-medium text-base md:text-lg md:text-right leading-tight"
             >
                 {description}
-            </p>
+            </motion.p>
         </div>
-    );
-};
 
-export function StickyFeatureSection({ title, description, features }: StickyFeatureSectionProps) {
-  return (
-    <div className="bg-white font-sans py-20 md:py-32 overflow-hidden">
-      <div className="px-4 sm:px-6">
-        <div className="max-w-7xl mx-auto">
-            
-            <AnimatedHeader title={title} description={description} />
-
-            <div className="w-full relative">
-              {features.map((feature, index) => (
-                <div
-                    key={index}
-                    className={cn(
-                        "grid grid-cols-1 md:grid-cols-2 items-center gap-8 md:gap-12 p-8 md:p-12 rounded-3xl mb-12 sticky top-24 md:top-32 shadow-xl border border-white/20 transition-transform duration-500",
-                        feature.bgColor
-                    )}
-                >
-                  <div className="flex flex-col justify-center order-2 md:order-1">
-                    <h3 className="text-2xl md:text-4xl font-bold mb-6 text-gray-900 leading-tight">{feature.title}</h3>
-                    <p className={cn("text-lg md:text-xl leading-relaxed", feature.textColor)}>{feature.description}</p>
-                  </div>
-                  
-                  <div className="order-1 md:order-2 relative aspect-video md:aspect-[4/3] rounded-2xl overflow-hidden shadow-md">
-                    <img 
-                        src={feature.imageUrl} 
-                        alt={feature.title}
-                        loading="lazy"
-                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
-                    />
-                  </div>
-                </div>
-              ))}
-              {/* Spacer reduced to prevent excessive gap before Pricing section */}
-              <div className="h-12" />
-            </div>
+        <div className="w-full relative space-y-8 md:space-y-12">
+            {features.map((feature, index) => (
+            <StickyCard key={index} feature={feature} index={index} />
+            ))}
+            <div className="h-10 md:h-20" />
         </div>
       </div>
     </div>
   );
+}
+
+const StickyCard: React.FC<{ feature: StickyFeature; index: number }> = ({ feature, index }) => {
+    const cardRef = useRef(null);
+    const { scrollYProgress } = useScroll({
+        target: cardRef,
+        offset: ["start end", "end start"]
+    });
+
+    const scale = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0.85, 1, 1, 0.9]);
+    const opacity = useTransform(scrollYProgress, [0, 0.1, 0.9, 1], [0, 1, 1, 0]);
+
+    return (
+        <motion.div
+            ref={cardRef}
+            style={{ scale, opacity }}
+            className={cn(
+                "sticky top-24 md:top-32 grid grid-cols-1 md:grid-cols-2 items-center gap-8 md:gap-12 p-6 md:p-20 rounded-[2rem] md:rounded-[3rem] shadow-2xl border border-white/5 backdrop-blur-3xl overflow-visible",
+                feature.bgColor
+            )}
+        >
+            <div className="flex flex-col justify-center gap-4 md:gap-8 order-2 md:order-1 relative z-20">
+                <div className="relative overflow-visible">
+                    <motion.h3 
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                        className="text-3xl md:text-6xl font-display font-black text-white leading-[1.1] md:leading-none uppercase italic tracking-tighter drop-shadow-[0_4px_12px_rgba(0,0,0,0.5)]"
+                    >
+                        {feature.title}
+                    </motion.h3>
+                </div>
+                <motion.p 
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    transition={{ delay: 0.3 }}
+                    className={cn("text-base md:text-xl font-medium leading-relaxed drop-shadow-sm", feature.textColor)}
+                >
+                    {feature.description}
+                </motion.p>
+            </div>
+            
+            <div className="order-1 md:order-2 relative aspect-[4/3] rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl z-10">
+                <motion.img 
+                    initial={{ scale: 1.2 }}
+                    whileInView={{ scale: 1 }}
+                    transition={{ duration: 1.5, ease: "easeOut" }}
+                    src={feature.imageUrl} 
+                    alt={feature.title}
+                    className="w-full h-full object-cover grayscale md:hover:grayscale-0 transition-all duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+            </div>
+            
+            <motion.div 
+                animate={{ rotate: 360 }}
+                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                className="absolute -top-1/2 -left-1/2 w-full h-full bg-accent/5 rounded-full blur-[120px] pointer-events-none"
+            />
+        </motion.div>
+    );
 }

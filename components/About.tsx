@@ -1,125 +1,158 @@
+
 import React from 'react';
 import { Section } from './ui/Section';
 import { Button } from './ui/Button';
-import { ArrowRight, CheckCircle2 } from 'lucide-react';
+import { ArrowRight, Award, Zap } from 'lucide-react';
 import { motion } from 'framer-motion';
+
+const revealVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
+};
+
+const popVariants = {
+    hidden: { opacity: 0, scale: 0.5 },
+    visible: { 
+        opacity: 1, 
+        scale: 1, 
+        transition: { 
+            type: "spring",
+            stiffness: 260,
+            damping: 20
+        } 
+    }
+};
 
 export const About: React.FC = () => {
   return (
-    <Section id="about" className="py-24 overflow-hidden">
-      <style>{`
-          @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-          .font-poppins { font-family: 'Poppins', sans-serif; }
-      `}</style>
-      <div className="font-poppins flex flex-col-reverse md:flex-row items-center justify-center gap-12 lg:gap-20">
-          
-          {/* Left Image Section (Bottom on Mobile, Left on Desktop) */}
-          <motion.div 
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="w-full md:w-1/2 max-w-lg shrink-0 flex flex-col gap-8"
-          >
-              <div className="relative shadow-2xl shadow-indigo-600/20 rounded-2xl overflow-hidden aspect-[4/3] h-full">
-                  <img 
-                    className="w-full h-full object-cover rounded-2xl scale-100 hover:scale-105 transition-transform duration-700"
-                    src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?q=80&w=1000&auto=format&fit=crop"
-                    alt="Momentum Web Workspace" 
-                  />
-                  <div className="absolute inset-0 bg-indigo-900/10 mix-blend-multiply"></div>
-              </div>
-
-              {/* Two Feature Blocks Below Image */}
-              <div className="grid grid-cols-2 gap-6">
-                  <div>
-                      <div className="size-10 p-2 bg-indigo-50 border border-indigo-200 rounded-lg mb-4">
-                          <img src="https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/aboutSection/flashEmoji.png" alt="Fast" />
-                      </div>
-                      <h3 className="text-base font-bold text-slate-800 mb-1">Lightning Fast</h3>
-                      <p className="text-sm text-slate-500 leading-relaxed">Built with speed — minimal load times and optimized.</p>
-                  </div>
-                  <div>
-                      <div className="size-10 p-2 bg-purple-50 border border-purple-200 rounded-lg mb-4">
-                          <img src="https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/aboutSection/puzzelEmoji.png" alt="Integrated" />
-                      </div>
-                      <h3 className="text-base font-bold text-slate-800 mb-1">Seamless Process</h3>
-                      <p className="text-sm text-slate-500 leading-relaxed">We handle everything from start to finish.</p>
-                  </div>
-              </div>
-          </motion.div>
-
-          {/* Right Text Section (Top on Mobile, Right on Desktop) */}
-          <motion.div 
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-sm text-slate-600 max-w-lg w-full pt-4"
-          >
-              <h1 className="text-xl uppercase font-bold text-indigo-600 tracking-wider">Who We Are</h1>
-              <div className="w-20 h-[3px] rounded-full bg-gradient-to-r from-indigo-600 to-purple-400 mt-2 mb-6"></div>
+    <Section id="about" className="py-32 overflow-hidden px-6">
+      <div className="max-w-[1400px] mx-auto">
+          <div className="grid lg:grid-cols-2 gap-20 items-center">
               
-              <h2 className="text-3xl font-bold text-gray-900 mb-6">Small Team. Big Results.</h2>
-              
-              <div className="space-y-5 text-base leading-relaxed mb-8">
-                  <p>
-                      Momentum Web was born from a simple observation: Small businesses were getting left behind. 
-                      Agencies were too expensive, and DIY builders were too complicated.
-                  </p>
-                  <p>
-                      We changed that. We build high-performance websites that look expensive but don't cost a fortune.
-                      When you work with us, you don't get a "ticket number" – you get personal attention.
-                  </p>
+              {/* Left Column: Visuals */}
+              <div className="relative">
+                  <motion.div 
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    className="relative aspect-square md:aspect-[4/5] rounded-[3rem] overflow-hidden border border-white/10 group shadow-2xl"
+                  >
+                      {/* Removed grayscale to make the image colorful as requested */}
+                      <img 
+                        src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?q=80&w=1200&auto=format&fit=crop"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-all duration-1000"
+                        alt="Momentum Digital Strategy Session"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent" />
+                      
+                      {/* Floating Stats */}
+                      <motion.div 
+                        initial={{ x: -20, opacity: 0 }}
+                        whileInView={{ x: 0, opacity: 1 }}
+                        className="absolute bottom-8 left-8 right-8 bg-white/5 backdrop-blur-2xl border border-white/10 p-6 rounded-2xl flex justify-between items-center"
+                      >
+                          <div className="text-center">
+                              <p className="text-3xl font-display font-black text-accent">98%</p>
+                              <p className="text-[10px] font-black uppercase tracking-widest text-muted">ROI Growth</p>
+                          </div>
+                          <div className="w-[1px] h-10 bg-white/10" />
+                          <div className="text-center">
+                              <p className="text-3xl font-display font-black text-white">10D</p>
+                              <p className="text-[10px] font-black uppercase tracking-widest text-muted">Delivery</p>
+                          </div>
+                          <div className="w-[1px] h-10 bg-white/10" />
+                          <div className="text-center">
+                              <p className="text-3xl font-display font-black text-primary">24/7</p>
+                              <p className="text-[10px] font-black uppercase tracking-widest text-muted">Ownership</p>
+                          </div>
+                      </motion.div>
+                  </motion.div>
+
+                  {/* Decorative Elements */}
+                  <div className="absolute -top-10 -left-10 w-40 h-40 bg-accent/20 rounded-full blur-[80px] -z-10" />
+                  <div className="absolute -bottom-10 -right-10 w-60 h-60 bg-primary/20 rounded-full blur-[100px] -z-10" />
               </div>
 
-              {/* Meet the Team Section */}
-              <div className="mb-8">
-                 <h3 className="text-xl uppercase font-bold text-indigo-600 tracking-wider mb-4">Meet the Team</h3>
-                 <div className="flex flex-col sm:flex-row gap-6">
-                    {/* Rahul */}
-                    <div className="flex items-center gap-3 group cursor-default">
-                        <div className="relative w-14 h-14 rounded-full overflow-hidden border-2 border-indigo-100 group-hover:border-indigo-500 transition-colors duration-300 shadow-sm">
-                             <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=faces" alt="Rahul" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
-                        </div>
-                        <div>
-                            <p className="font-bold text-gray-900 group-hover:text-indigo-700 transition-colors">Rahul</p>
-                            <p className="text-xs text-indigo-600 font-bold uppercase tracking-wide">Founder & Dev</p>
-                        </div>
-                    </div>
-                    
-                    {/* Kavita */}
-                    <div className="flex items-center gap-3 group cursor-default">
-                        <div className="relative w-14 h-14 rounded-full overflow-hidden border-2 border-purple-100 group-hover:border-purple-500 transition-colors duration-300 shadow-sm">
-                             <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop&crop=faces" alt="Kavita" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
-                        </div>
-                        <div>
-                            <p className="font-bold text-gray-900 group-hover:text-purple-700 transition-colors">Kavita</p>
-                            <p className="text-xs text-purple-600 font-bold uppercase tracking-wide">Lead Designer</p>
-                        </div>
-                    </div>
-                 </div>
-              </div>
+              {/* Right Column: Content */}
+              <div className="space-y-12">
+                  <motion.div variants={revealVariants} initial="hidden" whileInView="visible" viewport={{ once: true }}>
+                      <span className="text-accent font-black tracking-[0.4em] uppercase text-[10px] mb-4 block">Our Origin Story</span>
+                      <h2 className="text-5xl md:text-7xl font-display font-black text-white leading-[0.9] tracking-tighter uppercase italic">
+                          Propelling <br /> <span className="text-outline">Ambition.</span>
+                      </h2>
+                  </motion.div>
 
-              <div className="space-y-3 mb-10">
-                  <div className="flex items-center gap-3">
-                      <CheckCircle2 className="text-green-500 w-5 h-5" />
-                      <span className="font-medium text-gray-700">No Outsourcing - We do everything in-house</span>
+                  <motion.p 
+                    variants={revealVariants} initial="hidden" whileInView="visible" viewport={{ once: true }}
+                    className="text-xl md:text-2xl text-muted font-medium leading-relaxed max-w-xl"
+                  >
+                      Momentum Digital was founded on a singular premise: Great businesses deserve world-class digital assets without the traditional agency friction.
+                  </motion.p>
+
+                  <div className="grid sm:grid-cols-2 gap-8">
+                      <motion.div variants={revealVariants} initial="hidden" whileInView="visible" viewport={{ once: true }} className="space-y-3">
+                          <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center text-accent">
+                              <Award size={24} />
+                          </div>
+                          <h4 className="text-lg font-bold text-white uppercase italic">Zero Rent Policy</h4>
+                          <p className="text-muted text-sm font-medium">We don't believe in holding your site hostage. You pay once, you own the code forever.</p>
+                      </motion.div>
+                      <motion.div variants={revealVariants} initial="hidden" whileInView="visible" viewport={{ once: true }} className="space-y-3">
+                          <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+                              <Zap size={24} />
+                          </div>
+                          <h4 className="text-lg font-bold text-white uppercase italic">Speed as Strategy</h4>
+                          <p className="text-muted text-sm font-medium">Performance isn't an afterthought. It's our primary competitive advantage.</p>
+                      </motion.div>
                   </div>
-                  <div className="flex items-center gap-3">
-                      <CheckCircle2 className="text-green-500 w-5 h-5" />
-                      <span className="font-medium text-gray-700">Fair, Flat Pricing - No hidden surprises</span>
-                  </div>
-              </div>
 
-              <div>
-                  <Button href="#contact" className="rounded-full px-8 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 shadow-xl shadow-indigo-200">
-                      <span className="flex items-center gap-2">
-                          Work With Us <ArrowRight size={16} />
-                      </span>
-                  </Button>
+                  {/* Enhanced Team Display with pop effects */}
+                  <motion.div variants={revealVariants} initial="hidden" whileInView="visible" viewport={{ once: true }} className="pt-8 border-t border-white/5">
+                      <p className="text-[10px] font-black uppercase tracking-[0.3em] text-accent mb-6">Built by Founders</p>
+                      <div className="flex flex-wrap gap-12">
+                          <motion.div 
+                              variants={popVariants}
+                              initial="hidden"
+                              whileInView="visible"
+                              viewport={{ once: true }}
+                              whileHover={{ scale: 1.1, rotate: 2 }}
+                              className="flex items-center gap-4 group cursor-pointer"
+                          >
+                              <div className="relative w-16 h-16 rounded-full overflow-hidden border-2 border-white/10 group-hover:border-accent transition-colors shadow-xl">
+                                  <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop" className="w-full h-full object-cover" alt="Founder Rahul" />
+                              </div>
+                              <div>
+                                  <p className="text-white font-black text-lg">Rahul</p>
+                                  <p className="text-xs font-black uppercase tracking-widest text-muted">Dev Lead</p>
+                              </div>
+                          </motion.div>
+                          <motion.div 
+                              variants={popVariants}
+                              initial="hidden"
+                              whileInView="visible"
+                              viewport={{ once: true }}
+                              whileHover={{ scale: 1.1, rotate: -2 }}
+                              transition={{ delay: 0.1 }}
+                              className="flex items-center gap-4 group cursor-pointer"
+                          >
+                              <div className="relative w-16 h-16 rounded-full overflow-hidden border-2 border-white/10 group-hover:border-primary transition-colors shadow-xl">
+                                  <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop" className="w-full h-full object-cover" alt="Founder Kavita" />
+                              </div>
+                              <div>
+                                  <p className="text-white font-black text-lg">Kavita</p>
+                                  <p className="text-xs font-black uppercase tracking-widest text-muted">Design Lead</p>
+                              </div>
+                          </motion.div>
+                      </div>
+                  </motion.div>
+
+                  <motion.div variants={revealVariants} initial="hidden" whileInView="visible" viewport={{ once: true }}>
+                      <Button href="#contact" variant="accent" className="rounded-full px-10 group">
+                          Join the Momentum <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                      </Button>
+                  </motion.div>
               </div>
-          </motion.div>
+          </div>
       </div>
     </Section>
   );

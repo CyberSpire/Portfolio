@@ -1,14 +1,15 @@
+
 import React from 'react';
 import { Section } from './ui/Section';
 import { FeatureSteps } from './ui/feature-section';
-import { motion } from 'framer-motion';
+import { motion, Variants } from 'framer-motion';
 
-const fadeIn = {
-  hidden: { opacity: 0, y: 20 },
+const fadeIn: Variants = {
+  hidden: { opacity: 0, y: 30 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.6 },
+    transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] as const },
   },
 }
 
@@ -41,20 +42,38 @@ export const Process: React.FC = () => {
   ];
 
   return (
-    <Section id="process" className="bg-gray-50 py-0 relative z-10">
+    <Section id="process" className="relative z-10 overflow-hidden">
        <motion.div
          variants={fadeIn}
          initial="hidden"
          whileInView="visible"
-         viewport={{ once: true }}
+         viewport={{ once: true, amount: 0.2 }}
        >
+         <div className="flex flex-col items-center justify-center pt-24 pb-2">
+            <h1 className="text-xl uppercase font-bold text-accent tracking-wider">Our Process</h1>
+            <div className="w-20 h-[3px] rounded-full bg-gradient-to-r from-accent to-amber-400 mt-2 mb-6 shadow-[0_0_10px_#F97316]"></div>
+         </div>
          <FeatureSteps 
             features={steps}
-            title="From Concept to Launch in 10 Days"
+            title={
+                <motion.span 
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 1, ease: "easeOut" }}
+                  className="block max-w-4xl mx-auto leading-tight text-white"
+                >
+                    From Concept to Launch in <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-600 via-amber-500 to-orange-500 font-black">10 Days</span>
+                </motion.span>
+            }
             autoPlayInterval={5000}
             imageHeight="h-[400px] md:h-[600px]"
          />
        </motion.div>
+       
+       {/* Background decorative elements */}
+       <div className="absolute top-1/2 left-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] -z-10" />
+       <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-accent/5 rounded-full blur-[120px] -z-10" />
     </Section>
   );
 };

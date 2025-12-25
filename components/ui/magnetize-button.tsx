@@ -1,11 +1,11 @@
 "use client" 
 
 import * as React from "react"
-import { cn } from "@/lib/utils";
+import { cn } from "../../lib/utils";
 import { motion, useAnimation } from "framer-motion";
 import { Magnet } from "lucide-react";
 import { useEffect, useState, useCallback } from "react";
-import { Button } from "@/components/ui/shadcn-button";
+import { Button } from "./shadcn-button";
 
 export type MagnetizeButtonProps = React.ComponentProps<typeof Button> & {
   particleCount?: number;

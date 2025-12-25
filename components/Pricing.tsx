@@ -1,14 +1,17 @@
+
 import React from 'react';
 import { Section } from './ui/Section';
 import { Pricing as PricingComponent, PricingPlan } from './ui/pricing';
-import { CreditCard, ShieldCheck, Check } from 'lucide-react';
+import { ShieldCheck, Lock, Sparkles } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 export const Pricing: React.FC = () => {
   const plans: PricingPlan[] = [
     {
       name: "STARTER",
       price: "199",
-      yearlyPrice: "199", // Same price as no yearly toggle
+      originalPrice: "299",
+      yearlyPrice: "199",
       period: "",
       features: [
         "1-3 Professional Pages",
@@ -27,6 +30,7 @@ export const Pricing: React.FC = () => {
     {
       name: "BUSINESS",
       price: "399",
+      originalPrice: "599",
       yearlyPrice: "399",
       period: "",
       features: [
@@ -47,11 +51,12 @@ export const Pricing: React.FC = () => {
     {
       name: "GROWTH",
       price: "999",
+      originalPrice: "1499",
       yearlyPrice: "999",
       period: "",
       features: [
         "10+ Custom Pages",
-        "E-commerce (20 products)",
+        "E-commerce Ready",
         "Online Booking System",
         "Email Marketing Setup",
         "Advanced SEO & Analytics",
@@ -67,7 +72,6 @@ export const Pricing: React.FC = () => {
   ];
 
   const handlePlanSelect = (planName: string) => {
-    // Map uppercase plan names back to the format Contact form expects
     const mapping: Record<string, string> = {
         "STARTER": "Starter Package ($199)",
         "BUSINESS": "Business Package ($399)",
@@ -76,53 +80,79 @@ export const Pricing: React.FC = () => {
     
     const packageName = mapping[planName];
     if (packageName) {
-        // Dispatch event to notify Contact form
         const event = new CustomEvent('package-selected', { detail: { package: packageName } });
         window.dispatchEvent(event);
     }
   };
 
   return (
-    <Section id="pricing" className="bg-gray-50/50">
-      <PricingComponent 
-        plans={plans}
-        title="Transparent Pricing"
-        description="One-time investment. No monthly fees. You own everything."
-        showToggle={false}
-        onPlanSelect={handlePlanSelect}
-      />
-
-      <div className="mt-12">
-        <div className="relative max-w-4xl mx-auto bg-white rounded-2xl p-8 lg:p-10 shadow-xl border border-blue-100 overflow-hidden group hover:shadow-2xl transition-shadow duration-300">
-            {/* Top accent line */}
-            <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-blue-500 via-purple-500 to-blue-500"></div>
-            
-            <div className="flex flex-col md:flex-row items-center gap-8 relative z-10">
-              <div className="flex-shrink-0 bg-blue-50 p-4 rounded-full text-blue-600">
-                <CreditCard size={40} />
-              </div>
-              
-              <div className="text-center md:text-left flex-grow">
-                 <h3 className="text-2xl font-bold text-gray-900 mb-2 flex items-center justify-center md:justify-start gap-2">
-                    Flexible Payment Structure
-                 </h3>
-                 <p className="text-lg text-gray-600 font-medium">
-                    <span className="text-blue-600 font-bold">50% deposit</span> to start project  •  <span className="text-blue-600 font-bold">50% balance</span> due only when you're happy & ready to launch
-                 </p>
-              </div>
-
-              <div className="hidden md:block w-px h-16 bg-gray-200"></div>
-
-              <div className="flex-shrink-0 text-center md:text-left">
-                  <div className="flex items-center gap-2 text-green-600 font-bold mb-1">
-                      <ShieldCheck size={20} />
-                      <span>Money-Back</span>
-                  </div>
-                  <span className="text-xs text-gray-500 uppercase tracking-wider font-bold">Guarantee</span>
-              </div>
-            </div>
+    <Section id="pricing" className="overflow-visible px-6">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        className="mb-12"
+      >
+        <div className="flex justify-center mb-8">
+            <motion.div 
+                animate={{ scale: [1, 1.05, 1], rotate: [0, 1, -1, 0] }}
+                transition={{ duration: 4, repeat: Infinity }}
+                className="inline-flex items-center gap-3 bg-accent text-white px-6 py-2.5 rounded-full border-2 border-white/20 shadow-[0_0_20px_rgba(249,115,22,0.5)]"
+            >
+                <Sparkles size={18} className="animate-pulse" />
+                <span className="text-xs md:text-sm font-black uppercase tracking-widest">Limited Time Launch Offer</span>
+            </motion.div>
         </div>
-      </div>
+        
+        <PricingComponent 
+            plans={plans}
+            title="Invest in Results"
+            description="We build assets, not expenses. Choose a high-performance system designed for your business stage."
+            showToggle={false}
+            onPlanSelect={handlePlanSelect}
+        />
+      </motion.div>
+
+      {/* Guaranteed Ownership Banner */}
+      <motion.div 
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="relative max-w-6xl mx-auto mt-20"
+      >
+          <div className="bg-[#111111] rounded-[2.5rem] p-10 md:p-16 border border-white/5 relative overflow-hidden group">
+              <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-accent to-primary opacity-50" />
+              
+              <div className="grid lg:grid-cols-12 gap-12 items-center">
+                  <div className="lg:col-span-8 space-y-6">
+                      <div className="inline-flex items-center gap-2 bg-accent/10 text-accent px-4 py-1.5 rounded-full border border-accent/20">
+                          <Lock size={14} className="fill-current" />
+                          <span className="text-[10px] font-black uppercase tracking-widest">Ownership Guaranteed</span>
+                      </div>
+                      <h3 className="text-4xl md:text-6xl font-display font-black text-white leading-[0.9] tracking-tighter uppercase italic">
+                          Stop Renting. <br /> <span className="text-outline">Start Owning.</span>
+                      </h3>
+                      <p className="text-muted text-lg font-medium leading-relaxed max-w-2xl">
+                          Traditional agencies charge monthly maintenance just to keep your lights on. At <span className="text-white">Momentum Digital</span>, we deliver 100% of the custom code. No vendor lock-in, just pure performance.
+                      </p>
+                  </div>
+                  
+                  <div className="lg:col-span-4 flex flex-col items-center lg:items-end gap-6 lg:border-l border-white/10 lg:pl-12 pt-10 lg:pt-0">
+                      <div className="flex -space-x-4">
+                          {[1, 2, 3].map((i) => (
+                              <div key={i} className="w-14 h-14 rounded-full border-2 border-background bg-card flex items-center justify-center text-accent/60 shadow-xl">
+                                  <ShieldCheck size={24} />
+                              </div>
+                          ))}
+                      </div>
+                      <div className="text-center lg:text-right">
+                          <p className="text-white font-black text-2xl tracking-tighter uppercase italic">LIFETIME ASSET</p>
+                          <p className="text-muted text-[10px] font-black uppercase tracking-[0.3em] mt-1">Engineered for Longevity</p>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </motion.div>
     </Section>
   );
 };
