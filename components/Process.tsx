@@ -48,9 +48,9 @@ export const Process: React.FC = () => {
          whileInView="visible"
          viewport={{ once: true, amount: 0.2 }}
        >
-         <div className="flex flex-col items-center justify-center pt-24 pb-2">
-            <h1 className="text-xl uppercase font-black text-accent tracking-widest">Our Process</h1>
-            <div className="w-20 h-[3px] rounded-full bg-gradient-to-r from-accent to-amber-400 mt-2 mb-6 shadow-[0_0_15px_#F97316]"></div>
+         <div className="flex flex-col items-center justify-center pt-16 pb-2">
+            <h1 className="text-sm uppercase font-black text-accent tracking-[0.4em] mb-3">Our Process</h1>
+            <div className="w-16 h-[2px] rounded-full bg-gradient-to-r from-accent to-amber-400 mb-6 shadow-[0_0_15px_#F97316]"></div>
          </div>
          <FeatureSteps 
             features={steps}
@@ -60,18 +60,18 @@ export const Process: React.FC = () => {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 1, ease: "easeOut" }}
-                  className="block max-w-4xl mx-auto leading-tight text-white pr-4 md:pr-6"
+                  className="block max-w-4xl mx-auto leading-[1.1] text-white pr-4 md:pr-6 text-4xl md:text-6xl lg:text-7xl"
                 >
                     From Concept to Launch in <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-600 via-amber-500 to-orange-500 font-black">10 Days</span>
                 </motion.span>
             }
             autoPlayInterval={5000}
-            imageHeight="h-[400px] md:h-[600px]"
+            imageHeight="h-[400px] md:h-[550px]"
          />
        </motion.div>
        
-       <div className="absolute top-1/2 left-0 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px] -z-10" />
-       <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-accent/10 rounded-full blur-[120px] -z-10" />
+       <div className="absolute top-1/2 left-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] -z-10" />
+       <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-accent/5 rounded-full blur-[120px] -z-10" />
     </Section>
   );
 };

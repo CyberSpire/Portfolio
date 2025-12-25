@@ -11,7 +11,7 @@ export const BrandLogo = ({ className }: { className?: string }) => (
     fill="none" 
     xmlns="http://www.w3.org/2000/svg" 
     className={cn("w-8 h-8", className)}
-    aria-label="Momentum Digital Sharded Logo"
+    aria-label="Momentum Web Logo"
   >
     <defs>
       <linearGradient id="logoShardGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -118,7 +118,7 @@ export const Navbar: React.FC = () => {
                         "font-display font-black leading-none text-white uppercase transition-all duration-300 italic tracking-tighter",
                         isScrolled ? "text-base" : "text-2xl"
                     )}>
-                        MOMENTUM <span className="text-accent not-italic font-extrabold ml-2">DIGITAL</span>
+                        MOMENTUM <span className="text-accent not-italic font-extrabold ml-2">WEB</span>
                     </span>
                     <span className={cn(
                         "font-black tracking-[0.4em] text-accent/70 uppercase transition-all duration-300 leading-tight",

@@ -33,16 +33,16 @@ const projects = [
 
 export const Portfolio: React.FC = () => {
   return (
-    <section id="portfolio" className="bg-background py-32 px-6">
+    <section id="portfolio" className="bg-background py-24 md:py-32 px-6">
       <div className="max-w-[1400px] mx-auto">
-        <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-8">
+        <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
             <motion.div
                 initial={{ opacity: 0, x: -50 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
             >
-                <span className="text-accent font-black tracking-[0.4em] uppercase text-[10px] mb-4 block">Case Studies</span>
-                <h2 className="text-6xl md:text-8xl font-display font-black text-white leading-[0.9] tracking-tighter">
+                <span className="text-accent font-black tracking-[0.4em] uppercase text-[9px] mb-4 block">Case Studies</span>
+                <h2 className="text-5xl md:text-7xl lg:text-8xl font-display font-black text-white leading-[0.9] tracking-tighter">
                     SELECTED <br /> <span className="text-outline">WORKS</span>
                 </h2>
             </motion.div>
@@ -50,13 +50,13 @@ export const Portfolio: React.FC = () => {
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
-                className="max-w-xs text-muted font-medium text-lg text-right"
+                className="max-w-xs text-muted font-medium text-base md:text-lg text-right"
             >
                 We build high-performance assets, not just "pretty" websites.
             </motion.p>
         </div>
 
-        <div className="space-y-40">
+        <div className="space-y-32 md:space-y-48">
             {projects.map((project, idx) => (
                 <ProjectItem key={idx} project={project} index={idx} />
             ))}
@@ -69,13 +69,13 @@ export const Portfolio: React.FC = () => {
 const ProjectItem: React.FC<{ project: any; index: number }> = ({ project, index }) => {
     return (
         <motion.div 
-            initial={{ opacity: 0, y: 100 }}
+            initial={{ opacity: 0, y: 80 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-            className="group grid md:grid-cols-2 gap-12 items-center"
+            className="group grid md:grid-cols-2 gap-10 md:gap-16 items-center"
         >
-            <div className={cn("relative aspect-square md:aspect-[4/5] overflow-hidden rounded-3xl cursor-pointer perspective-lg", index % 2 !== 0 && "md:order-2")}>
+            <div className={cn("relative aspect-square md:aspect-[4/5] overflow-hidden rounded-3xl cursor-pointer perspective-lg shadow-2xl", index % 2 !== 0 && "md:order-2")}>
                 <motion.div 
                    whileHover={{ rotateY: index % 2 === 0 ? 5 : -5, rotateX: 2, scale: 1.02 }}
                    transition={{ type: "spring", stiffness: 100 }}
@@ -83,25 +83,25 @@ const ProjectItem: React.FC<{ project: any; index: number }> = ({ project, index
                 >
                     <motion.img 
                         src={project.image} 
-                        alt={`${project.title} - ${project.category} Professional Web Design Project by Momentum Digital`}
+                        alt={`${project.title} - ${project.category} Professional Web Design Project`}
                         className="w-full h-full object-cover grayscale-0 md:grayscale group-hover:grayscale-0 transition-all duration-700"
                         loading="lazy"
                         decoding="async"
                     />
                 </motion.div>
-                <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-500 pointer-events-none md:block hidden" />
+                <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-500 pointer-events-none md:block hidden" />
             </div>
 
-            <div className={cn("flex flex-col gap-8", index % 2 !== 0 && "md:order-1 md:text-right md:items-end")}>
-                <div className="flex items-center gap-4 text-accent font-black text-xs uppercase tracking-[0.2em]">
+            <div className={cn("flex flex-col gap-6 md:gap-8", index % 2 !== 0 && "md:order-1 md:text-right md:items-end")}>
+                <div className="flex items-center gap-4 text-accent font-black text-[10px] uppercase tracking-[0.2em]">
                     <span>{project.year}</span>
-                    <span className="w-8 h-[1px] bg-white/20"></span>
+                    <span className="w-6 h-[1px] bg-white/20"></span>
                     <span>{project.category}</span>
                 </div>
-                <h3 className="text-4xl md:text-7xl font-display font-black text-white group-hover:text-accent transition-colors duration-500 leading-none uppercase italic">
+                <h3 className="text-3xl md:text-5xl lg:text-6xl font-display font-black text-white group-hover:text-accent transition-colors duration-500 leading-tight uppercase italic">
                     {project.title}
                 </h3>
-                <p className="text-muted text-lg md:text-xl max-w-md font-medium">
+                <p className="text-muted text-base md:text-lg max-w-md font-medium opacity-80">
                     {project.description}
                 </p>
                 <Button 
@@ -111,7 +111,7 @@ const ProjectItem: React.FC<{ project: any; index: number }> = ({ project, index
                     variant="outline" 
                     className="w-fit rounded-full border-white/10 group-hover:border-accent"
                 >
-                    View Live Demo <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    View Project <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </Button>
             </div>
         </motion.div>

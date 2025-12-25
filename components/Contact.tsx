@@ -93,24 +93,24 @@ export const Contact: React.FC = () => {
                 transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
                 className="space-y-8 md:space-y-12"
             >
-                <h2 className="text-6xl md:text-[9vw] font-display font-black tracking-tighter leading-[0.85] text-white uppercase italic">
+                <h2 className="text-5xl md:text-7xl lg:text-8xl font-display font-black tracking-tighter leading-[0.95] text-white uppercase italic">
                     Fuel Your <br /> <span className="text-outline">Expansion.</span>
                 </h2>
-                <p className="text-lg md:text-2xl text-white mb-12 max-w-2xl mx-auto font-medium leading-relaxed">
+                <p className="text-lg md:text-2xl text-white mb-12 max-w-2xl mx-auto font-medium leading-relaxed opacity-80">
                     Ready to build a high-speed website that actually brings in customers? Let's talk.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-6 justify-center">
                     <Button 
                         href="#contact-form" 
                         variant="accent" 
-                        className="rounded-full px-12 py-6 text-lg md:text-xl shadow-[0_20px_50px_rgba(249,115,22,0.3)]"
+                        className="rounded-full px-12 py-5 text-lg md:text-xl shadow-[0_20px_50px_rgba(249,115,22,0.3)]"
                     >
                         Start Now
                     </Button>
                     <Button 
                         href="#pricing" 
                         variant="outline" 
-                        className="rounded-full px-12 py-6 border-white/60 text-white hover:bg-white hover:text-background text-lg md:text-xl backdrop-blur-md"
+                        className="rounded-full px-12 py-5 border-white/60 text-white hover:bg-white hover:text-background text-lg md:text-xl backdrop-blur-md"
                     >
                         See Plans
                     </Button>
@@ -125,7 +125,7 @@ export const Contact: React.FC = () => {
         <div className="space-y-16">
             <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
                 <span className="text-accent font-black tracking-[0.4em] uppercase text-[10px] mb-6 block">Let's Connect</span>
-                <h2 className="text-5xl md:text-8xl font-display font-black text-white leading-[0.9] tracking-tighter uppercase italic">
+                <h2 className="text-5xl md:text-7xl lg:text-8xl font-display font-black text-white leading-[0.9] tracking-tighter uppercase italic">
                     Tell us your <br /> <span className="text-outline">Vision.</span>
                 </h2>
             </motion.div>
@@ -152,7 +152,7 @@ export const Contact: React.FC = () => {
                     </a>
                 </div>
 
-                <div className="bg-white/[0.05] p-10 rounded-[3rem] border border-white/20 space-y-8 backdrop-blur-sm shadow-xl">
+                <div className="bg-white/[0.05] p-10 rounded-[2.5rem] border border-white/20 space-y-8 backdrop-blur-sm shadow-xl">
                     <p className="text-[12px] font-black uppercase tracking-[0.4em] text-accent">10-Day Process</p>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         {[
@@ -241,7 +241,7 @@ export const Contact: React.FC = () => {
                     </div>
                   </div>
 
-                  <MagnetizeButton type="submit" disabled={formState === 'submitting'} variant="accent" className="w-full py-8 text-xl font-black rounded-3xl group shadow-[0_20px_60px_rgba(0,0,0,0.4)]">
+                  <MagnetizeButton type="submit" disabled={formState === 'submitting'} variant="accent" className="w-full py-6 md:py-8 text-lg font-black rounded-3xl group shadow-[0_20px_60px_rgba(0,0,0,0.4)]">
                     {formState === 'submitting' ? "Transmitting..." : "Send Inquiry"}
                   </MagnetizeButton>
                 </form>
